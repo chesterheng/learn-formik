@@ -1,30 +1,26 @@
 import "./App.css";
 import React, { Fragment, useState } from "react";
+import { Formik, Form, Field } from "formik";
 import ItemList from "./ItemList";
 
 const App = () => {
   const [items, setItems] = useState([]);
-  const [item, setItem] = useState("");
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  const handleSubmit = ({ item }) => {
     setItems(prevState => [...prevState, item]);
-    setItem("");
-  };
-
-  const handleChange = ({ target: { value } }) => {
-    setItem(value);
   };
 
   return (
     <Fragment>
       <h2>To do List:</h2>
       <ItemList items={items} />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Item:</label>
-        <input type="text" value={item} onChange={handleChange} />
-        <button type="submit">Add Item</button>
-      </form>
+      <Formik onSubmit={handleSubmit}>
+        <Form>
+          <label htmlFor="name">Item:</label>
+          <Field type="text" name="item" />
+          <button type="submit">Add Item</button>
+        </Form>
+      </Formik>
     </Fragment>
   );
 };
